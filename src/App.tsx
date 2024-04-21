@@ -72,7 +72,7 @@ function App() {
   };
 
   return (
-    <div className="m-6 flex min-h-screen flex-col items-center justify-center">
+    <div className="flex min-h-screen flex-col items-center justify-center p-6">
       <Card className="p-4 ">
         <CardHeader className="text-center">
           <CardTitle>Wiki Race Path Finder</CardTitle>

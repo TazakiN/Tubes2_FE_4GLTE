@@ -13,35 +13,67 @@ import RadioButtonGroups from "./components/RadioButtonGroups";
 import { Button } from "./components/ui/button";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { createStore } from "state-pool";
+import ResDisplayer from "./components/ResDisplayer";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { judulToLink } from "./lib/utils";
+import { toast } from "sonner";
+import Spinner from "./components/ui/spinner";
 
 export const store = createStore({
   JudulMulai: "",
   JudulTujuan: "",
   Metode: "BFS",
   Bahasa: "ID",
+  results: null,
+  kedalaman: 0,
 });
 
 function App() {
-  const [judulMulai] = store.useState("JudulMulai");
-  const [judulTujuan] = store.useState("JudulTujuan");
   const [metode] = store.useState("Metode");
+  const [displayResult, setDisplayResult] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false); // For loading status
   const [bahasa] = store.useState("Bahasa");
+  const [judulMulai] = store.useState<string>("JudulMulai");
+  const [judulTujuan] = store.useState<string>("JudulTujuan");
+  // const [kedalaman] = store.useState<number>("kedalaman");
 
-  const handleClick = () => {
-    const judulMulaiLink = judulToLink(judulMulai as string);
-    const judulTujuanLink = judulToLink(judulTujuan as string);
+  const resultQuery = useQuery({
+    queryKey: ["res"],
+    queryFn: async () => {
+      const linkMulai = judulToLink(judulMulai);
+      const linkTujuan = judulToLink(judulTujuan);
 
-    const url = `http://localhost:3321/${bahasa}/${metode}/${judulMulaiLink}/${judulTujuanLink}`;
+      const res = await axios.get(
+        `http://localhost:3321/${bahasa}/${metode}/${linkMulai}/${linkTujuan}`,
+      );
+      return res.data;
+    },
+    enabled: false, // Initially disable the query
+    refetchOnWindowFocus: false, // Avoid refetching on tab change
+  });
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+  const handleButtonClick = async () => {
+    setDisplayResult(false); // Hide old results while loading
+    setIsLoading(true);
+
+    try {
+      toast.info("Pencarian sedang dilakukan");
+      await resultQuery.refetch(); // Trigger data refetch
+      console.log(resultQuery.data);
+      setDisplayResult(true);
+    } catch (error) {
+      // Handle fetch errors
+      toast.error("Terjadi kesalahan saat melakukan pencarian");
+      console.error("Error fetching data", error);
+    } finally {
+      toast.success("Pencarian berhasil diselesaikan");
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="m-6 flex min-h-screen items-center justify-center">
+    <div className="m-6 flex min-h-screen flex-col items-center justify-center">
       <Card className="p-4 ">
         <CardHeader className="text-center">
           <CardTitle>Wiki Race Path Finder</CardTitle>
@@ -50,11 +82,21 @@ function App() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-grow flex-row gap-6">
-          <RadioButtonGroups
-            option1Label={"BFS"}
-            option2Label={"IDS"}
-            radioGroupTitle={"Metode"}
-          />
+          <CardContent className="flex w-full flex-col">
+            <RadioButtonGroups
+              option1Label={"BFS"}
+              option2Label={"IDS"}
+              radioGroupTitle={"Metode"}
+            />
+            {metode === "IDS" ? (
+              <div className="pt-4">
+                <InputWithLabel
+                  label={"Kedalaman Maksimum"}
+                  inputId={"kedalaman"}
+                />
+              </div>
+            ) : null}
+          </CardContent>
           <RadioButtonGroups
             option1Label={"EN"}
             option2Label={"ID"}
@@ -72,9 +114,13 @@ function App() {
           />
         </CardContent>
         <CardContent className="flex justify-center">
-          <Button onClick={handleClick}>
-            <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
-            Temukan Rute
+          <Button onClick={handleButtonClick} disabled={isLoading}>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
+            )}
+            {isLoading ? "Loading..." : "Temukan Rute"}
           </Button>
         </CardContent>
         <CardFooter>
@@ -82,7 +128,7 @@ function App() {
             Program dibuat oleh 4GLTE dengan link repository{" "}
             <a
               href="https://github.com/TazakiN/Tubes2_FE_4GLTE"
-              className="text-blue-600 underline visited:text-purple-600 hover:text-blue-800"
+              className="text-blue-600 underline hover:text-blue-800"
               target="_blank"
               rel="noreferrer"
             >
@@ -91,6 +137,13 @@ function App() {
           </CardDescription>
         </CardFooter>
       </Card>
+      {displayResult && (
+        <ResDisplayer
+          data={resultQuery.data}
+          isLoading={resultQuery.isLoading}
+          isError={resultQuery.isError}
+        />
+      )}
     </div>
   );
 }

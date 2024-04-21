@@ -11,6 +11,7 @@ const InputWithLabel = ({
 }) => {
   const [judulMulai, setJudulMulai] = store.useState("JudulMulai");
   const [judulTujuan, setJudulTujuan] = store.useState("JudulTujuan");
+  const [kedalaman, setKedalaman] = store.useState("kedalaman");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const title = event.target.value;
@@ -20,6 +21,9 @@ const InputWithLabel = ({
     } else if (inputId === "judulTujuan") {
       setJudulTujuan(title);
       console.log(judulTujuan);
+    } else {
+      setKedalaman(parseInt(title));
+      console.log(kedalaman);
     }
   };
 

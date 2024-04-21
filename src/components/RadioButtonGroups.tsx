@@ -14,8 +14,8 @@ const RadioButtonGroups = ({
   const [metode, setMetode] = store.useState("Metode");
   const [bahasa, setBahasa] = store.useState("Bahasa");
 
-  const handleChange = (event: React.ChangeEvent<HTMLButtonElement>) => {
-    const value = event.target.value;
+  const handleChange = (e: string) => {
+    const value = e;
     if (radioGroupTitle === "Metode") {
       setMetode(value);
       console.log(metode);
@@ -28,21 +28,17 @@ const RadioButtonGroups = ({
   return (
     <div className="w-full">
       <h1 className="py-2 text-center text-lg">{radioGroupTitle}</h1>
-      <RadioGroup defaultValue={option1Label} className="flex flex-row gap-2.5">
+      <RadioGroup
+        defaultValue={option1Label}
+        className="flex flex-grow justify-center gap-7"
+        onValueChange={(value: string) => handleChange(value)}
+      >
         <div className="flex items-center space-x-2">
-          <RadioGroupItem
-            value={option1Label}
-            id={option1Label}
-            onChange={handleChange}
-          />
+          <RadioGroupItem value={option1Label} id={option1Label} />
           <Label htmlFor={option1Label}>{option1Label}</Label>
         </div>
         <div className="flex items-center space-x-2">
-          <RadioGroupItem
-            value={option2Label}
-            id={option2Label}
-            onChange={handleChange}
-          />
+          <RadioGroupItem value={option2Label} id={option2Label} />
           <Label htmlFor={option2Label}>{option2Label}</Label>
         </div>
       </RadioGroup>

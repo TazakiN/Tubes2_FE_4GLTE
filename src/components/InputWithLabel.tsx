@@ -1,6 +1,8 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { store } from "../App";
+import React from "react";
+import JudulValidator from "./JudulValidator";
 
 const InputWithLabel = ({
   label,
@@ -11,9 +13,10 @@ const InputWithLabel = ({
 }) => {
   const [judulMulai, setJudulMulai] = store.useState("JudulMulai");
   const [judulTujuan, setJudulTujuan] = store.useState("JudulTujuan");
+
   const [kedalaman, setKedalaman] = store.useState("kedalaman");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const title = event.target.value;
     if (inputId === "judulMulai") {
       setJudulMulai(title);
@@ -22,6 +25,7 @@ const InputWithLabel = ({
       setJudulTujuan(title);
       console.log(judulTujuan);
     } else {
+      // Kedalaman
       setKedalaman(parseInt(title));
       console.log(kedalaman);
     }
@@ -32,6 +36,9 @@ const InputWithLabel = ({
     placeHolderText = "Rocky Gerung";
   } else if (label === "Judul Halaman Tujuan") {
     placeHolderText = "Joko Widodo";
+  } else {
+    // label === "Kedalaman"
+    placeHolderText = "2";
   }
 
   return (
@@ -45,6 +52,7 @@ const InputWithLabel = ({
         placeholder={placeHolderText}
         onChange={handleChange}
       />
+      <JudulValidator inputId={inputId} />
     </div>
   );
 };

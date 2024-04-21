@@ -24,7 +24,7 @@ export const store = createStore({
   JudulMulai: "",
   JudulTujuan: "",
   Metode: "BFS",
-  Bahasa: "ID",
+  Bahasa: "EN",
   results: null,
   kedalaman: 0,
 });
@@ -32,11 +32,11 @@ export const store = createStore({
 function App() {
   const [metode] = store.useState("Metode");
   const [displayResult, setDisplayResult] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false); // For loading status
+  const [isLoading, setIsLoading] = React.useState(false);
   const [bahasa] = store.useState("Bahasa");
   const [judulMulai] = store.useState<string>("JudulMulai");
   const [judulTujuan] = store.useState<string>("JudulTujuan");
-  // const [kedalaman] = store.useState<number>("kedalaman");
+  // const [kedalaman] = store.useState<number>("kedalaman"); // * nunggu implementasi IDS
 
   const resultQuery = useQuery({
     queryKey: ["res"],
@@ -49,21 +49,20 @@ function App() {
       );
       return res.data;
     },
-    enabled: false, // Initially disable the query
-    refetchOnWindowFocus: false, // Avoid refetching on tab change
+    enabled: false,
+    refetchOnWindowFocus: false,
   });
 
   const handleButtonClick = async () => {
-    setDisplayResult(false); // Hide old results while loading
+    setDisplayResult(false);
     setIsLoading(true);
 
     try {
       toast.info("Pencarian sedang dilakukan");
-      await resultQuery.refetch(); // Trigger data refetch
+      await resultQuery.refetch();
       console.log(resultQuery.data);
       setDisplayResult(true);
     } catch (error) {
-      // Handle fetch errors
       toast.error("Terjadi kesalahan saat melakukan pencarian");
       console.error("Error fetching data", error);
     } finally {

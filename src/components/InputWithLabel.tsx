@@ -51,6 +51,7 @@ const InputWithLabel = ({
         id={inputId}
         placeholder={placeHolderText}
         onChange={handleChange}
+        autoComplete="off"
       />
       <JudulValidator inputId={inputId} />
     </div>

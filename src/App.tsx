@@ -27,6 +27,7 @@ export const store = createStore({
   Bahasa: "EN",
   results: null,
   kedalaman: 0,
+  inputError: "",
 });
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
   const [displayResult, setDisplayResult] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [bahasa] = store.useState("Bahasa");
+  const [inputError] = store.useState<string>("inputError");
   const [judulMulai] = store.useState<string>("JudulMulai");
   const [judulTujuan] = store.useState<string>("JudulTujuan");
   // const [kedalaman] = store.useState<number>("kedalaman"); // * nunggu implementasi IDS
@@ -113,7 +115,10 @@ function App() {
           />
         </CardContent>
         <CardContent className="flex justify-center">
-          <Button onClick={handleButtonClick} disabled={isLoading}>
+          <Button
+            onClick={handleButtonClick}
+            disabled={isLoading || inputError === "error"}
+          >
             {isLoading ? (
               <Spinner />
             ) : (

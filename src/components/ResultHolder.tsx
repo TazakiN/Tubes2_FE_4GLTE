@@ -1,11 +1,7 @@
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { store } from "../App";
 import { linkToJudul, judulToLink } from "../lib/utils";
-import { Button } from "./ui/button";
-import {
-  CollapsibleTrigger,
-  CollapsibleContent,
-  Collapsible,
-} from "./ui/collapsible";
+import ResultBox from "./ResultBox";
 
 interface ResultHolderProps {
   executionTime: number;
@@ -30,54 +26,29 @@ export function ResultHolder({
         <div className="text-lg font-medium">Banyak Langkah</div>
         <div className="text-2xl font-bold text-blue-500">{solutionLength}</div>
       </div>
-      <Collapsible className="border-t border-gray-800 pt-4">
-        <CollapsibleTrigger className="flex w-full items-center justify-between">
+      <div className="border-t border-gray-800 pt-4">
+        <div className="flex w-full items-center justify-between">
           <div className="text-lg font-medium">Solusi: </div>
-          <Button size="icon" variant="ghost">
-            <ChevronDownIcon className="h-5 w-5" />
-          </Button>
-        </CollapsibleTrigger>
+        </div>
         {solutionSequences.map((innerArray: string[], index: number) => (
-          <CollapsibleContent key={index} className="mt-4 space-y-2">
-            <div>
-              {index + 1}.{" "}
+          <div key={index} className="mt-4 space-y-2">
+            <div className="flex flex-row items-center justify-center">
               {innerArray.map((elem: string, innerIndex: number) => (
                 <>
-                  <a
-                    href={`https://${bahasa}.wikipedia.org/wiki/${judulToLink(elem)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {linkToJudul(elem)}{" "}
-                  </a>
-                  <span>
-                    {innerIndex !== innerArray.length - 1 ? "→" : null}{" "}
-                  </span>
+                  <ResultBox
+                    title={linkToJudul(elem)}
+                    link={`https://${bahasa}.wikipedia.org/wiki/${judulToLink(elem)}`}
+                    key={innerIndex}
+                  />
+                  {innerIndex !== innerArray.length - 1 && (
+                    <ArrowRightIcon className="mx-2 h-6 w-6 text-gray-300" />
+                  )}
                 </>
               ))}
-            </div>
-          </CollapsibleContent>
+            </div>  
+          </div>
         ))}
-      </Collapsible>
+      </div>
     </div>
-  );
-}
-
-function ChevronDownIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
   );
 }

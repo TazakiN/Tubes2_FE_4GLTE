@@ -8,6 +8,8 @@ const JudulValidator = ({ inputId }: { inputId: string }) => {
   const [judulMulai] = store.useState("JudulMulai");
   const [judulTujuan] = store.useState("JudulTujuan");
   const [bahasa] = store.useState("Bahasa");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [inputError, setInputError] = store.useState("inputError");
   const [errorMessage, setErrorMessage] = React.useState("");
   const [successMessage, setSuccessMessage] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -42,9 +44,11 @@ const JudulValidator = ({ inputId }: { inputId: string }) => {
           if (response.data.items) {
             setSuccessMessage(`Artikel ditemukan di Wikipedia!`);
             setErrorMessage("");
+            setInputError("");
           } else if (response.status === 404) {
             setErrorMessage("Artikel tidak ditemukan di Wikipedia.");
             setSuccessMessage("");
+            setInputError("error");
           }
         }
       } catch (error) {
@@ -52,10 +56,12 @@ const JudulValidator = ({ inputId }: { inputId: string }) => {
         setErrorMessage("Artikel tidak ditemukan di Wikipedia.");
         setSuccessMessage("");
         setIsLoading(false);
+        setInputError("error");
       }
     }, 500);
 
     return () => clearTimeout(timerId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bahasa, inputId, judulMulai, judulTujuan]);
 
   return (

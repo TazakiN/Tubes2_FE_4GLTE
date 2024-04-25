@@ -37,7 +37,7 @@ const JudulValidator = ({ inputId }: { inputId: string }) => {
             `https://${(bahasa as string).toLowerCase()}.wikipedia.org/api/rest_v1/page/title/${judulToLink(judul)}`,
           );
 
-          console.log(response.data);
+          // console.log(response.data);
 
           setIsLoading(false);
 

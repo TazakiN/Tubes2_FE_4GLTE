@@ -22,7 +22,7 @@ export default function ResDisplayer({
   if (isError) return <p>Error</p>;
 
   return (
-    <Card className="mt-4 flex w-1/2 flex-col items-center p-5">
+    <Card className="w-90 mt-4 flex flex-col items-center p-5">
       <ResultHolder
         executionTime={data.waktu}
         solutionLength={data.panjang}

@@ -38,7 +38,7 @@ function App() {
   const [inputError] = store.useState<string>("inputError");
   const [judulMulai] = store.useState<string>("JudulMulai");
   const [judulTujuan] = store.useState<string>("JudulTujuan");
-  // const [kedalaman] = store.useState<number>("kedalaman"); // * nunggu implementasi IDS
+  const [kedalaman] = store.useState<number>("kedalaman");
 
   const resultQuery = useQuery({
     queryKey: ["res"],
@@ -47,7 +47,7 @@ function App() {
       const linkTujuan = judulToLink(judulTujuan);
 
       const res = await axios.get(
-        `http://localhost:3321/${bahasa}/${metode}/${linkMulai}/${linkTujuan}`,
+        `http://localhost:3321/${bahasa}/${metode}/${linkMulai}/${linkTujuan}/${kedalaman}`,
       );
       return res.data;
     },
@@ -62,7 +62,7 @@ function App() {
     try {
       toast.info("Pencarian sedang dilakukan");
       await resultQuery.refetch();
-      console.log(resultQuery.data);
+
       setDisplayResult(true);
     } catch (error) {
       toast.error("Terjadi kesalahan saat melakukan pencarian");

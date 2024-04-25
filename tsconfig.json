@@ -29,5 +29,5 @@
   },
   "include": [
     "src"
-  ]
+, "react-graph-vis.d.ts"  ]
 }

@@ -1,46 +1,83 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Wiki Race Path Finder - Frontend
 
-## Available Scripts
+Repositori ini berisi kode frontend dari aplikasi Wiki Race Path Finder yang dibuat menggunakan Create React App. Aplikasi ini memungkinkan pengguna untuk mencari jalur terpendek antara dua artikel di Wikipedia dengan menggunakan algoritma BFS dan IDS.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+1. [Penjelasan Algoritma](#penjelasan-algoritma)
+    - [BFS (Breadth First Search)](#bfs-breadth-first-search)
+    - [IDS (Iterative Deepening Search)](#ids-iterative-deepening-search)
+2. [Cara Menjalankan Aplikasi](#cara-menjalankan-aplikasi)
+    - [Menjalankan tanpa Docker](#menjalankan-tanpa-docker)
+    - [Menjalankan dengan Docker](#menjalankan-dengan-docker)
+3. [Contoh Penggunaan Aplikasi](#contoh-penggunaan-aplikasi)
+4. [Kontributor (4GLTE)](#kontributor-4glte)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Penjelasan Algoritma
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### BFS (Breadth First Search)
 
-### `npm test`
+BFS adalah algoritma pencarian yang mengunjungi simpul secara berurutan, dimulai dari simpul awal, kemudian simpul tetangga dari simpul tersebut, dan seterusnya. Algoritma ini akan mengunjungi semua simpul yang terhubung dengan simpul awal sebelum mengunjungi simpul yang lebih jauh.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### IDS (Iterative Deepening Search)
 
-### `npm run build`
+IDS adalah algoritma pencarian yang menggabungkan konsep DFS dan BFS. IDS akan melakukan DFS dengan kedalaman maksimum sesuai masukan pengguna, kemudian akan meningkatkan kedalaman maksimum jika tidak ditemukan solusi. IDS akan terus melakukan DFS dengan kedalaman yang semakin dalam jika masih belum ditemukan solusi.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Cara Menjalankan Aplikasi
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Menjalankan tanpa Docker
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. Clone repositori ini dan repositori backend di [sini](https://github.com/TazakiN/Tubes2_BE_4GLTE)
+2. Buka terminal dan arahkan ke direktori `src`.
+3. Jalankan perintah `npm install` untuk menginstal semua dependensi.
+4. Jalankan perintah `npm start` untuk menjalankan aplikasi.
+5. Buka browser dengan alamat `localhost:3000`.
+6. Jalankan backend dengan mengikuti petunjuk di [sini](https://github.com/TazakiN/Tubes2_BE_4GLTE)
+7. Aplikasi siap digunakan.
 
-### `npm run eject`
+### Menjalankan dengan Docker
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Clone repositori ini dan repositori backend di [sini](https://github.com/TazakiN/Tubes2_BE_4GLTE) pada direktori yang sama (pada contoh ini, direktori `root`).
+2. Buat sebuah file bernama docker-compose.yml dengan isi sebagai berikut:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```yml
+    version: '3.8'
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    services:
+    backend:
+        build: ./Tubes2_BE_4GLTE/src
+        ports:
+        - "3321:3321"
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    frontend:
+        build: ./Tubes2_FE_4GLTE/src
+        ports:
+        - "3000:3000"
+    ```
 
-## Learn More
+    struktur direktori saat ini adalah sebagai berikut
+    root/
+    ├── Tubes2_BE_4GLTE/
+    ├── Tubes2_FE_4GLTE/
+    └── docker-compose.yml
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Buka terminal dan arahkan ke direktori root.
+4. Jalankan perintah `docker-compose up` untuk menjalankan aplikasi.
+5. Tunggu hingga proses selesai dan buka browser dengan alamat `localhost:3000`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contoh Penggunaan Aplikasi
+
+Berikut adalah tampilan awal aplikasi:
+
+![Tampilan Awal](doc/Tampilan%20awal.png)
+
+Berikut adalah contoh tampilan hasil:
+
+![Tampilan Hasil](doc/Tampilan%20hasil.png)
+
+## Kontributor (4GLTE)
+
+- 10023485 -  [Lidya Rahmatul Fitri](https://github.com/Lidyarf24)
+- 13522032 - [Tazkia Nizami](https://github.com/TazakiN)
+- 13522097 - [Ellijah Darrellshane Suryanegara](https://github.com/HenryofSkalitz1202)

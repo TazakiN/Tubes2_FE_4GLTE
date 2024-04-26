@@ -57,14 +57,15 @@ IDS adalah algoritma pencarian yang menggabungkan konsep DFS dan BFS. IDS akan m
     ```
 
     struktur direktori saat ini adalah sebagai berikut
+    ```
     root/
     ├── Tubes2_BE_4GLTE/
     ├── Tubes2_FE_4GLTE/
     └── docker-compose.yml
-
-3. Buka terminal dan arahkan ke direktori root.
-4. Jalankan perintah `docker-compose up` untuk menjalankan aplikasi.
-5. Tunggu hingga proses selesai dan buka browser dengan alamat `localhost:3000`.
+    ```
+4. Buka terminal dan arahkan ke direktori root.
+5. Jalankan perintah `docker-compose up` untuk menjalankan aplikasi.
+6. Tunggu hingga proses selesai dan buka browser dengan alamat `localhost:3000`.
 
 ## Contoh Penggunaan Aplikasi
 

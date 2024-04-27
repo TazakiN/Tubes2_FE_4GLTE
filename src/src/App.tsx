@@ -26,7 +26,6 @@ export const store = createStore({
   Metode: "BFS",
   Bahasa: "EN",
   results: null,
-  kedalaman: 0,
   inputError: "",
 });
 
@@ -38,7 +37,6 @@ function App() {
   const [inputError] = store.useState<string>("inputError");
   const [judulMulai] = store.useState<string>("JudulMulai");
   const [judulTujuan] = store.useState<string>("JudulTujuan");
-  const [kedalaman] = store.useState<number>("kedalaman");
 
   const resultQuery = useQuery({
     queryKey: ["res"],
@@ -47,7 +45,7 @@ function App() {
       const linkTujuan = judulToLink(judulTujuan);
 
       const res = await axios.get(
-        `http://localhost:3321/${bahasa}/${metode}/${linkMulai}/${linkTujuan}/${kedalaman}`,
+        `http://localhost:3321/${bahasa}/${metode}/${linkMulai}/${linkTujuan}`,
       );
       return res.data;
     },
@@ -89,14 +87,6 @@ function App() {
               option2Label={"IDS"}
               radioGroupTitle={"Metode"}
             />
-            {metode === "IDS" ? (
-              <div className="pt-4">
-                <InputWithLabel
-                  label={"Kedalaman Maksimum"}
-                  inputId={"kedalaman"}
-                />
-              </div>
-            ) : null}
           </CardContent>
           <RadioButtonGroups
             option1Label={"EN"}
